@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lazy Loading in Web Development</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        color: #333;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+      }
+
+      h1 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        color: #3498db;
+        margin-top: 30px;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+
+      .subtitle {
+        color: #7f8c8d;
+        font-size: 1.2em;
+        margin-bottom: 20px;
+      }
+
+      .card {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .card h3 {
+        margin-top: 0;
+        color: #2980b9;
+      }
+
+      .button {
+        display: inline-block;
+        background-color: #3498db;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        margin-top: 10px;
+        transition: background-color 0.3s;
+      }
+
+      .button:hover {
+        background-color: #2980b9;
+      }
+
+      .resources {
+        background-color: #e8f4f8;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 30px;
+      }
+
+      .resources ul {
+        padding-left: 20px;
+      }
+
+      footer {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        text-align: center;
+        color: #7f8c8d;
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Lazy Loading in Web Development</h1>
+      <p class="subtitle">A Comprehensive Guide to Performance Optimization</p>
+    </header>
+
+    <div class="card">
+      <h3>About This Presentation</h3>
+      <p>
+        This repository contains materials for a 30-minute presentation on lazy
+        loading techniques in web development. The presentation covers various
+        approaches to lazy loading and includes practical examples that
+        demonstrate each technique.
+      </p>
+      <p>
+        Lazy loading is a design pattern that defers the loading of resources
+        until they are actually needed, improving initial page load performance
+        and saving bandwidth.
+      </p>
+    </div>
+
+    <h2>Presentation Materials</h2>
+
+    <div class="card">
+      <h3>Presentation Slides</h3>
+      <p>
+        The slides cover all aspects of lazy loading, including concepts,
+        techniques, best practices, and performance considerations.
+      </p>
+      <a href="slides/presentation.md" class="button">View Slides</a>
+    </div>
+
+    <div class="card">
+      <h3>Live Examples</h3>
+      <p>
+        Explore practical examples of various lazy loading techniques
+        implemented with plain HTML, CSS, and JavaScript.
+      </p>
+      <a href="examples/index.html" class="button">View Examples</a>
+    </div>
+
+    <h2>What You'll Learn</h2>
+
+    <div class="card">
+      <h3>Types of Lazy Loading</h3>
+      <ul>
+        <li>
+          <strong>Image Lazy Loading</strong>: Loading images only when they are
+          about to enter the viewport
+        </li>
+        <li>
+          <strong>Component Lazy Loading</strong>: Loading UI components only
+          when needed
+        </li>
+        <li>
+          <strong>Route-based Lazy Loading</strong>: Loading page resources only
+          when a specific route is accessed
+        </li>
+        <li>
+          <strong>Data Lazy Loading</strong>: Loading data incrementally or on
+          demand
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Implementation Techniques</h3>
+      <ul>
+        <li>Native browser features like <code>loading="lazy"</code></li>
+        <li>Intersection Observer API for custom lazy loading</li>
+        <li>Dynamic imports for code splitting</li>
+        <li>Component factory patterns</li>
+        <li>Route-based code splitting</li>
+        <li>Infinite scroll for data</li>
+      </ul>
+    </div>
+
+    <div class="resources">
+      <h3>Additional Resources</h3>
+      <ul>
+        <li>
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading"
+            target="_blank"
+            >MDN Web Docs: Lazy Loading</a
+          >
+        </li>
+        <li>
+          <a href="https://web.dev/lazy-loading-best-practices/" target="_blank"
+            >Web.dev: Lazy Loading Best Practices</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API"
+            target="_blank"
+            >Intersection Observer API</a
+          >
+        </li>
+        <li>
+          <a href="https://reactjs.org/docs/code-splitting.html" target="_blank"
+            >React Documentation: Code Splitting</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video"
+            target="_blank"
+            >Google Developers: Lazy Loading Images and Video</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>
+        Prepared for a developer presentation on lazy loading techniques in web
+        development.
+      </p>
+      <p>
+        All examples use vanilla JavaScript to ensure the concepts are
+        framework-agnostic and widely applicable.
+      </p>
+    </footer>
+  </body>
+</html>

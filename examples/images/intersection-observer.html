@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lazy Loading with Intersection Observer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1,
+      h2 {
+        color: #333;
+      }
+
+      .image-container {
+        margin-bottom: 1000px; /* Large margin to force scrolling */
+        text-align: center;
+        position: relative;
+      }
+
+      .lazy-image {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        transition: opacity 0.3s ease;
+      }
+
+      .placeholder {
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 300px;
+        color: #666;
+        font-style: italic;
+      }
+
+      .explanation {
+        background-color: #f8f9fa;
+        border-left: 4px solid #007bff;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
+      pre {
+        background-color: #f1f1f1;
+        padding: 15px;
+        border-radius: 4px;
+        overflow-x: auto;
+        font-family: monospace;
+      }
+
+      code {
+        background-color: #f1f1f1;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+
+      .network-info {
+        background-color: #e9f7ef;
+        padding: 15px;
+        border-radius: 4px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Lazy Loading with Intersection Observer API</h1>
+
+    <div class="explanation">
+      <h2>How It Works</h2>
+      <p>
+        This example demonstrates image lazy loading using the Intersection
+        Observer API. Images will only load when they are about to enter the
+        viewport.
+      </p>
+      <p>Key differences from native lazy loading:</p>
+      <ul>
+        <li>More control over loading behavior</li>
+        <li>Custom loading animations/placeholders</li>
+        <li>
+          Works in browsers that don't support the native
+          <code>loading="lazy"</code> attribute
+        </li>
+        <li>Can be used for any element, not just images</li>
+      </ul>
+      <p>
+        Scroll down to see the lazy-loaded images. Open your browser's developer
+        tools (Network tab) to observe when each image loads.
+      </p>
+    </div>
+
+    <!-- This image loads immediately -->
+    <div class="image-container">
+      <h2>Image 1: Eager Loading</h2>
+      <p>This image loads immediately when the page loads.</p>
+      <img
+        src="https://picsum.photos/id/1/800/450"
+        alt="Eager loaded image"
+        class="lazy-image"
+      />
+    </div>
+
+    <!-- These images will load only when scrolled into view -->
+    <div class="image-container">
+      <h2>Image 2: Lazy Loading with Intersection Observer</h2>
+      <p>This image loads only when you scroll down near it.</p>
+      <div class="placeholder" data-src="https://picsum.photos/id/10/800/450">
+        Loading image...
+      </div>
+    </div>
+
+    <div class="image-container">
+      <h2>Image 3: Lazy Loading with Intersection Observer</h2>
+      <p>This image also loads only when you scroll down near it.</p>
+      <div class="placeholder" data-src="https://picsum.photos/id/100/800/450">
+        Loading image...
+      </div>
+    </div>
+
+    <div class="image-container">
+      <h2>Image 4: Lazy Loading with Intersection Observer</h2>
+      <p>This is the last lazy-loaded image in our example.</p>
+      <div class="placeholder" data-src="https://picsum.photos/id/1000/800/450">
+        Loading image...
+      </div>
+    </div>
+
+    <div class="network-info">
+      <h2>What to Observe</h2>
+      <p>In your browser's developer tools (Network tab):</p>
+      <ul>
+        <li>The first image should load immediately when the page loads</li>
+        <li>
+          The other images should only load when you scroll down close to them
+        </li>
+        <li>Notice the timing of when each request is made</li>
+        <li>Observe the placeholder being replaced with the actual image</li>
+      </ul>
+    </div>
+
+    <div class="explanation">
+      <h2>The Code</h2>
+      <pre>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    // When placeholder is visible
+    if (entry.isIntersecting) {
+      const placeholder = entry.target;
+      const imgSrc = placeholder.dataset.src;
+      
+      // Create new image element
+      const img = new Image();
+      img.src = imgSrc;
+      img.alt = "Lazy loaded image";
+      img.className = "lazy-image";
+      
+      // When image is loaded, replace placeholder
+      img.onload = () => {
+        placeholder.parentNode.replaceChild(img, placeholder);
+      };
+      
+      // Stop observing this element
+      observer.unobserve(placeholder);
+    }
+  });
+}, {
+  // Start loading when image is 200px away
+  rootMargin: '200px 0px',
+  threshold: 0.01
+});
+
+// Observe all placeholders
+document.querySelectorAll('.placeholder[data-src]').forEach(placeholder => {
+  observer.observe(placeholder);
+});
+        </pre
+      >
+    </div>
+
+    <p><a href="../index.html">Back to Examples</a></p>
+
+    <script>
+      // Intersection Observer implementation
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            // When placeholder is visible
+            if (entry.isIntersecting) {
+              const placeholder = entry.target;
+              const imgSrc = placeholder.dataset.src;
+
+              // Create new image element
+              const img = new Image();
+              img.src = imgSrc;
+              img.alt = "Lazy loaded image";
+              img.className = "lazy-image";
+              img.style.opacity = "0";
+
+              // When image is loaded, replace placeholder
+              img.onload = () => {
+                placeholder.parentNode.replaceChild(img, placeholder);
+                // Fade in the image
+                setTimeout(() => {
+                  img.style.opacity = "1";
+                }, 50);
+              };
+
+              // Stop observing this element
+              observer.unobserve(placeholder);
+            }
+          });
+        },
+        {
+          // Start loading when image is 200px away
+          rootMargin: "200px 0px",
+          threshold: 0.01,
+        }
+      );
+
+      // Observe all placeholders
+      document
+        .querySelectorAll(".placeholder[data-src]")
+        .forEach((placeholder) => {
+          observer.observe(placeholder);
+        });
+    </script>
+  </body>
+</html>

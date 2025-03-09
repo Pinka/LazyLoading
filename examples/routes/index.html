@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Route-based Lazy Loading</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: #333;
+      }
+
+      .explanation {
+        background-color: #f8f9fa;
+        border-left: 4px solid #007bff;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
+      nav {
+        background-color: #333;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        margin-right: 5px;
+        display: inline-block;
+      }
+
+      nav a:hover {
+        background-color: #555;
+        border-radius: 4px;
+      }
+
+      nav a.active {
+        background-color: #4caf50;
+        border-radius: 4px;
+      }
+
+      #app {
+        min-height: 300px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 20px;
+      }
+
+      .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        font-style: italic;
+        color: #666;
+      }
+
+      pre {
+        background-color: #f1f1f1;
+        padding: 15px;
+        border-radius: 4px;
+        overflow-x: auto;
+        font-family: monospace;
+      }
+
+      code {
+        background-color: #f1f1f1;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+
+      .network-info {
+        background-color: #e9f7ef;
+        padding: 15px;
+        border-radius: 4px;
+        margin-top: 20px;
+      }
+
+      .home-page {
+        text-align: center;
+      }
+
+      .about-page {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 4px;
+      }
+
+      .products-page {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+      }
+
+      .product-card {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 15px;
+        text-align: center;
+      }
+
+      .contact-page {
+        background-color: #f0f8ff;
+        padding: 15px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Route-based Lazy Loading</h1>
+
+    <div class="explanation">
+      <h2>How It Works</h2>
+      <p>
+        This example demonstrates route-based lazy loading using vanilla
+        JavaScript. Each "page" of the single-page application is loaded only
+        when its route is accessed.
+      </p>
+      <p>Benefits of route-based lazy loading:</p>
+      <ul>
+        <li>Reduces initial bundle size</li>
+        <li>Loads page-specific code only when needed</li>
+        <li>Improves performance for large applications</li>
+        <li>Better user experience with faster initial load</li>
+      </ul>
+      <p>
+        Click the navigation links to load different pages. Open your browser's
+        developer tools (Network tab) to observe when each page module loads.
+      </p>
+    </div>
+
+    <nav id="main-nav">
+      <a href="#/" class="nav-link active" data-route="home">Home</a>
+      <a href="#/about" class="nav-link" data-route="about">About</a>
+      <a href="#/products" class="nav-link" data-route="products">Products</a>
+      <a href="#/contact" class="nav-link" data-route="contact">Contact</a>
+    </nav>
+
+    <div id="app">
+      <!-- Page content will be loaded here -->
+      <div class="home-page">
+        <h2>Welcome to Our Website</h2>
+        <p>This is the home page that loads by default.</p>
+        <p>
+          Click the navigation links above to see lazy-loaded routes in action.
+        </p>
+      </div>
+    </div>
+
+    <div class="network-info">
+      <h2>What to Observe</h2>
+      <p>In your browser's developer tools (Network tab):</p>
+      <ul>
+        <li>Each page module is loaded only when its route is accessed</li>
+        <li>The initial page load doesn't include all page modules</li>
+        <li>Notice the timing of when each module request is made</li>
+      </ul>
+    </div>
+
+    <div class="explanation">
+      <h2>The Code</h2>
+      <h3>Route Configuration</h3>
+      <pre>
+// Route configuration with lazy loading
+const routes = {
+  home: {
+    path: '/',
+    getTemplate: () => Promise.resolve(`
+      &lt;div class="home-page"&gt;
+        &lt;h2&gt;Welcome to Our Website&lt;/h2&gt;
+        &lt;p&gt;This is the home page that loads by default.&lt;/p&gt;
+        &lt;p&gt;Click the navigation links above to see lazy-loaded routes in action.&lt;/p&gt;
+      &lt;/div&gt;
+    `)
+  },
+  about: {
+    path: '/about',
+    getTemplate: () => {
+      // Simulate loading delay for the module
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(`
+            &lt;div class="about-page"&gt;
+              &lt;h2&gt;About Us&lt;/h2&gt;
+              &lt;p&gt;This page was lazy-loaded when you clicked the About link.&lt;/p&gt;
+              &lt;p&gt;In a real application, this would load a separate JavaScript module.&lt;/p&gt;
+            &lt;/div&gt;
+          `);
+        }, 500);
+      });
+    }
+  },
+  // Other routes...
+};
+        </pre
+      >
+
+      <h3>Router Implementation</h3>
+      <pre>
+// Simple router implementation
+class Router {
+  constructor(routes, appElement) {
+    this.routes = routes;
+    this.appElement = appElement;
+    this.currentRoute = null;
+    
+    // Handle initial route and route changes
+    window.addEventListener('hashchange', this.handleRouteChange.bind(this));
+    this.handleRouteChange();
+  }
+  
+  async handleRouteChange() {
+    // Get current hash without the # symbol
+    const path = window.location.hash.slice(1) || '/';
+    
+    // Find matching route
+    const routeKey = Object.keys(this.routes).find(key => 
+      this.routes[key].path === path
+    );
+    
+    if (routeKey) {
+      // Update active navigation link
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.dataset.route === routeKey) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Show loading state
+      this.appElement.innerHTML = '&lt;div class="loading"&gt;Loading...&lt;/div&gt;';
+      
+      try {
+        // Lazy load the template
+        const template = await this.routes[routeKey].getTemplate();
+        this.appElement.innerHTML = template;
+        this.currentRoute = routeKey;
+      } catch (error) {
+        this.appElement.innerHTML = '&lt;div&gt;Error loading page&lt;/div&gt;';
+      }
+    } else {
+      this.appElement.innerHTML = '&lt;div&gt;Page not found&lt;/div&gt;';
+    }
+  }
+}
+        </pre
+      >
+    </div>
+
+    <p><a href="../index.html">Back to Examples</a></p>
+
+    <script>
+      // Route configuration with lazy loading
+      const routes = {
+        home: {
+          path: "/",
+          getTemplate: () =>
+            Promise.resolve(`
+                    <div class="home-page">
+                        <h2>Welcome to Our Website</h2>
+                        <p>This is the home page that loads by default.</p>
+                        <p>Click the navigation links above to see lazy-loaded routes in action.</p>
+                    </div>
+                `),
+        },
+        about: {
+          path: "/about",
+          getTemplate: () => {
+            // Simulate loading delay for the module
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                console.log("About page module loaded");
+                resolve(`
+                                <div class="about-page">
+                                    <h2>About Us</h2>
+                                    <p>This page was lazy-loaded when you clicked the About link.</p>
+                                    <p>In a real application, this would load a separate JavaScript module.</p>
+                                    <p>We are a company dedicated to demonstrating lazy loading techniques.</p>
+                                    <p>This content was loaded asynchronously when you navigated to this route.</p>
+                                </div>
+                            `);
+              }, 800);
+            });
+          },
+        },
+        products: {
+          path: "/products",
+          getTemplate: () => {
+            // Simulate loading delay for the module
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                console.log("Products page module loaded");
+                resolve(`
+                                <div>
+                                    <h2>Our Products</h2>
+                                    <p>This products page was lazy-loaded when you clicked the Products link.</p>
+                                    <div class="products-page">
+                                        <div class="product-card">
+                                            <h3>Product 1</h3>
+                                            <p>Description of product 1</p>
+                                            <p>$99.99</p>
+                                        </div>
+                                        <div class="product-card">
+                                            <h3>Product 2</h3>
+                                            <p>Description of product 2</p>
+                                            <p>$149.99</p>
+                                        </div>
+                                        <div class="product-card">
+                                            <h3>Product 3</h3>
+                                            <p>Description of product 3</p>
+                                            <p>$199.99</p>
+                                        </div>
+                                        <div class="product-card">
+                                            <h3>Product 4</h3>
+                                            <p>Description of product 4</p>
+                                            <p>$249.99</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+              }, 1000);
+            });
+          },
+        },
+        contact: {
+          path: "/contact",
+          getTemplate: () => {
+            // Simulate loading delay for the module
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                console.log("Contact page module loaded");
+                resolve(`
+                                <div class="contact-page">
+                                    <h2>Contact Us</h2>
+                                    <p>This contact page was lazy-loaded when you clicked the Contact link.</p>
+                                    <p>Email: example@example.com</p>
+                                    <p>Phone: (123) 456-7890</p>
+                                    <p>Address: 123 Lazy Loading St, Web Development City</p>
+                                    <form>
+                                        <div style="margin-bottom: 15px;">
+                                            <label for="name">Name:</label>
+                                            <input type="text" id="name" style="width: 100%; padding: 8px; margin-top: 5px;">
+                                        </div>
+                                        <div style="margin-bottom: 15px;">
+                                            <label for="email">Email:</label>
+                                            <input type="email" id="email" style="width: 100%; padding: 8px; margin-top: 5px;">
+                                        </div>
+                                        <div style="margin-bottom: 15px;">
+                                            <label for="message">Message:</label>
+                                            <textarea id="message" rows="4" style="width: 100%; padding: 8px; margin-top: 5px;"></textarea>
+                                        </div>
+                                        <button type="button" style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px;">Send Message</button>
+                                    </form>
+                                </div>
+                            `);
+              }, 1200);
+            });
+          },
+        },
+      };
+
+      // Simple router implementation
+      class Router {
+        constructor(routes, appElement) {
+          this.routes = routes;
+          this.appElement = appElement;
+          this.currentRoute = null;
+
+          // Handle initial route and route changes
+          window.addEventListener(
+            "hashchange",
+            this.handleRouteChange.bind(this)
+          );
+          this.handleRouteChange();
+        }
+
+        async handleRouteChange() {
+          // Get current hash without the # symbol
+          const path = window.location.hash.slice(1) || "/";
+
+          // Find matching route
+          const routeKey = Object.keys(this.routes).find(
+            (key) => this.routes[key].path === path
+          );
+
+          if (routeKey) {
+            // Update active navigation link
+            document.querySelectorAll(".nav-link").forEach((link) => {
+              link.classList.remove("active");
+              if (link.dataset.route === routeKey) {
+                link.classList.add("active");
+              }
+            });
+
+            // Don't reload if already on this route
+            if (this.currentRoute === routeKey) {
+              return;
+            }
+
+            // Show loading state
+            this.appElement.innerHTML = '<div class="loading">Loading...</div>';
+
+            try {
+              // Lazy load the template
+              const template = await this.routes[routeKey].getTemplate();
+              this.appElement.innerHTML = template;
+              this.currentRoute = routeKey;
+            } catch (error) {
+              this.appElement.innerHTML = "<div>Error loading page</div>";
+            }
+          } else {
+            this.appElement.innerHTML = "<div>Page not found</div>";
+          }
+        }
+      }
+
+      // Initialize router
+      const appElement = document.getElementById("app");
+      const router = new Router(routes, appElement);
+    </script>
+  </body>
+</html>
