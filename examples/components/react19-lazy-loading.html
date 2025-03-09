@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern React Lazy Loading</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: #333;
+      }
+
+      .explanation {
+        background-color: #f8f9fa;
+        border-left: 4px solid #007bff;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
+      pre {
+        background-color: #f1f1f1;
+        padding: 15px;
+        border-radius: 4px;
+        overflow-x: auto;
+        font-family: monospace;
+        white-space: pre-wrap;
+      }
+
+      code {
+        background-color: #f1f1f1;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+
+      .feature-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-section h2 {
+        color: #007bff;
+        margin-top: 0;
+      }
+
+      .note {
+        background-color: #fffde7;
+        border-left: 4px solid #ffd600;
+        padding: 15px;
+        margin: 15px 0;
+      }
+
+      .highlight {
+        background-color: #e8f5e9;
+        border-left: 4px solid #4caf50;
+        padding: 15px;
+        margin: 15px 0;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Modern React Lazy Loading Features</h1>
+
+    <div class="explanation">
+      <h2>Overview</h2>
+      <p>
+        Modern React introduces several improvements to lazy loading and code
+        splitting capabilities. This document demonstrates the key features with
+        code examples.
+      </p>
+      <p>
+        Note: This is a static HTML example. To run these examples, you would
+        need a React project setup with the latest features.
+      </p>
+    </div>
+
+    <div class="feature-section">
+      <h2>1. Enhanced Suspense</h2>
+      <p>
+        Modern React improves the Suspense component with better error handling
+        and more control over fallback states.
+      </p>
+
+      <pre>
+import React, { Suspense, lazy } from 'react';
+
+// Lazy load a component
+const LazyComponent = lazy(() => import('./LazyComponent'));
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Enhanced Suspense&lt;/h1&gt;
+      
+      &lt;Suspense 
+        fallback={&lt;div&gt;Loading...&lt;/div&gt;}
+        fallbackMinDuration={500} // Prevents flash of loading state for fast loads
+        fallbackMaxDuration={5000} // Shows error UI after timeout
+        onError={(error, errorInfo) => {
+          // Log error to monitoring service
+          console.error('Component failed to load:', error, errorInfo);
+        }}
+      &gt;
+        &lt;LazyComponent /&gt;
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  );
+}
+        </pre
+      >
+
+      <div class="highlight">
+        <strong>Key Improvements:</strong>
+        <ul>
+          <li>
+            <code>fallbackMinDuration</code>: Prevents "flash of loading state"
+            for fast-loading components
+          </li>
+          <li>
+            <code>fallbackMaxDuration</code>: Sets a timeout after which to show
+            an error state
+          </li>
+          <li>
+            <code>onError</code>: Callback for error handling with detailed
+            error information
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-section">
+      <h2>2. Nested Suspense Boundaries</h2>
+      <p>
+        Modern React improves handling of nested Suspense boundaries, allowing
+        for more granular loading states.
+      </p>
+
+      <pre>
+import React, { Suspense, lazy } from 'react';
+
+const LazyHeader = lazy(() => import('./Header'));
+const LazyMainContent = lazy(() => import('./MainContent'));
+const LazySidebar = lazy(() => import('./Sidebar'));
+const LazyFooter = lazy(() => import('./Footer'));
+
+function App() {
+  return (
+    &lt;div className="app"&gt;
+      &lt;Suspense fallback={&lt;div&gt;Loading page skeleton...&lt;/div&gt;}&gt;
+        &lt;LazyHeader /&gt;
+        
+        &lt;div className="content-wrapper"&gt;
+          &lt;Suspense fallback={&lt;div&gt;Loading main content...&lt;/div&gt;}&gt;
+            &lt;LazyMainContent /&gt;
+          &lt;/Suspense&gt;
+          
+          &lt;Suspense fallback={&lt;div&gt;Loading sidebar...&lt;/div&gt;}&gt;
+            &lt;LazySidebar /&gt;
+          &lt;/Suspense&gt;
+        &lt;/div&gt;
+        
+        &lt;LazyFooter /&gt;
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  );
+}
+        </pre
+      >
+
+      <div class="note">
+        <p>
+          This approach allows different parts of the page to load
+          independently. The header and footer might load first, while the main
+          content and sidebar load in parallel afterward.
+        </p>
+      </div>
+    </div>
+
+    <div class="feature-section">
+      <h2>3. Server Components</h2>
+      <p>
+        Modern React introduces Server Components, which run exclusively on the
+        server and send only the rendered HTML to the client, reducing
+        JavaScript bundle size.
+      </p>
+
+      <pre>
+// ServerComponent.jsx - This component never gets sent to the client as JS
+export default async function ServerComponent() {
+  // Data fetching happens on the server
+  const data = await fetchLargeDataset();
+  
+  return (
+    &lt;div className="server-rendered"&gt;
+      &lt;h2&gt;Server-Rendered Content&lt;/h2&gt;
+      &lt;div className="data-grid"&gt;
+        {data.map(item => (
+          &lt;div key={item.id} className="data-item"&gt;
+            &lt;h3&gt;{item.title}&lt;/h3&gt;
+            &lt;p&gt;{item.description}&lt;/p&gt;
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// App.jsx - Client component that uses the server component
+'use client';
+
+import ServerComponent from './ServerComponent';
+
+export default function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;My Application&lt;/h1&gt;
+      &lt;ServerComponent /&gt; {/* This is rendered on the server */}
+      &lt;button onClick={() => alert('Client interaction works!')}&gt;
+        Click me
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+        </pre
+      >
+
+      <div class="highlight">
+        <strong>Benefits:</strong>
+        <ul>
+          <li>Zero JavaScript bundle size for server components</li>
+          <li>
+            Data fetching happens on the server, closer to the data source
+          </li>
+          <li>Reduced client-side processing</li>
+          <li>Better performance on low-powered devices</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-section">
+      <h2>4. Asset Loading Optimization</h2>
+      <p>
+        Modern React includes built-in optimizations for loading assets like
+        images, with native lazy loading support.
+      </p>
+
+      <pre>
+import { Image } from 'react';
+
+function Gallery() {
+  return (
+    &lt;div className="gallery"&gt;
+      &lt;h2&gt;Image Gallery&lt;/h2&gt;
+      
+      {/* Hero image loads immediately with high priority */}
+      &lt;Image 
+        src="/images/hero.jpg"
+        width={1200}
+        height={600}
+        loading="eager"
+        fetchPriority="high"
+        alt="Hero image"
+      /&gt;
+      
+      &lt;div className="gallery-grid"&gt;
+        {galleryImages.map(image => (
+          &lt;Image 
+            key={image.id}
+            src={image.url}
+            width={300}
+            height={200}
+            loading="lazy" // Only loads when near viewport
+            fetchPriority="auto"
+            alt={image.alt}
+          /&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+        </pre
+      >
+
+      <div class="note">
+        <p>
+          The <code>Image</code> component in modern React provides built-in
+          optimizations like:
+        </p>
+        <ul>
+          <li>
+            Automatic lazy loading with the
+            <code>loading="lazy"</code> attribute
+          </li>
+          <li>Priority hints with <code>fetchPriority</code></li>
+          <li>Automatic image size optimization</li>
+          <li>
+            Preventing layout shifts by reserving space based on width/height
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-section">
+      <h2>5. Streaming SSR</h2>
+      <p>
+        Modern React enhances streaming Server-Side Rendering to progressively
+        load page content.
+      </p>
+
+      <pre>
+// server.js
+import express from 'express';
+import { renderToReadableStream } from 'react-dom/server';
+import App from './App';
+
+const app = express();
+
+app.get('/', async (req, res) => {
+  try {
+    // Create a streaming renderer
+    const stream = await renderToReadableStream(
+      &lt;App /&gt;,
+      {
+        bootstrapScripts: ['/client.js'],
+        onShellReady() {
+          // Send the initial HTML shell as soon as it's ready
+          res.statusCode = 200;
+          res.setHeader('Content-type', 'text/html');
+          stream.pipe(res);
+        },
+        onError(error) {
+          console.error(error);
+          res.statusCode = 500;
+          res.send('&lt;h1&gt;Something went wrong&lt;/h1&gt;');
+        }
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res.statusCode = 500;
+    res.send('&lt;h1&gt;Something went wrong&lt;/h1&gt;');
+  }
+});
+
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
+        </pre
+      >
+
+      <div class="highlight">
+        <strong>How it works:</strong>
+        <ol>
+          <li>
+            The server immediately sends the HTML "shell" (layout, header,
+            navigation)
+          </li>
+          <li>The rest of the content streams in as it becomes available</li>
+          <li>
+            React on the client "hydrates" the streamed HTML to make it
+            interactive
+          </li>
+          <li>
+            Users see content sooner and can interact with parts of the page as
+            they load
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="feature-section">
+      <h2>6. Simplified Code Splitting</h2>
+      <p>
+        Modern React simplifies code splitting with improved APIs for
+        component-level splitting.
+      </p>
+
+      <pre>
+// Traditional approach
+import React, { lazy, Suspense } from 'react';
+
+const LazyComponent = lazy(() => import('./HeavyComponent'));
+
+function MyComponent() {
+  return (
+    &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+      &lt;LazyComponent /&gt;
+    &lt;/Suspense&gt;
+  );
+}
+
+// Modern approach with simplified API
+import { lazy } from 'react';
+
+// Simplified lazy API with automatic Suspense boundary
+const LazyComponent = lazy('./HeavyComponent', {
+  fallback: &lt;div&gt;Loading...&lt;/div&gt;,
+  onError: (error) => console.error(error)
+});
+
+function MyComponent() {
+  // No need for explicit Suspense wrapper
+  return &lt;LazyComponent /&gt;;
+}
+        </pre
+      >
+
+      <div class="note">
+        <p>Modern React simplifies the lazy loading API by:</p>
+        <ul>
+          <li>Allowing direct path strings instead of import functions</li>
+          <li>Providing fallback and error handling in the lazy call itself</li>
+          <li>Creating implicit Suspense boundaries when needed</li>
+        </ul>
+      </div>
+    </div>
+
+    <p><a href="../index.html" class="back-link">← Back to Examples</a></p>
+  </body>
+</html>
