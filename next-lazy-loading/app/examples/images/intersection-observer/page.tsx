@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState, useRef, ReactElement } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import ExampleLayout from "@/components/ExampleLayout";
 
+// Simplified LazyImage component
 const LazyImage = ({ dataSrc, index }: { dataSrc: string; index: number }) => {
-  const [loaded, setLoaded] = useState(false);
-  const [imageElement, setImageElement] = useState<ReactElement | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const placeholderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -14,92 +14,56 @@ const LazyImage = ({ dataSrc, index }: { dataSrc: string; index: number }) => {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          // When placeholder is visible
-          if (entry.isIntersecting) {
-            // Create new image element (via React state)
-            const img = new Image();
-            img.src = dataSrc;
-            img.alt = "Lazy loaded image";
-            img.className = "lazy-image opacity-0";
-            img.style.maxWidth = "100%";
-            img.style.height = "auto";
-            img.style.border = "1px solid #ddd";
-            img.style.borderRadius = "4px";
-            img.style.padding = "5px";
-            img.style.transition = "opacity 0.3s ease";
-
-            // When image is loaded, replace placeholder
-            img.onload = () => {
-              setImageElement(
-                <img
-                  src={dataSrc}
-                  alt="Lazy loaded image"
-                  className="lazy-image opacity-0"
-                  style={{
-                    maxWidth: "100%",
-                    height: "auto",
-                    border: "1px solid #ddd",
-                    borderRadius: "4px",
-                    padding: "5px",
-                    transition: "opacity 0.3s ease",
-                  }}
-                  onLoad={(e) => {
-                    // Fade in the image (using setTimeout to match the HTML version)
-                    setTimeout(() => {
-                      (e.target as HTMLImageElement).style.opacity = "1";
-                    }, 50);
-                  }}
-                />
-              );
-              setLoaded(true);
-            };
-
-            img.src = dataSrc; // Trigger the load
-
-            // Stop observing this element
-            observer.unobserve(entry.target);
-          }
-        });
+        if (entries[0].isIntersecting) {
+          // Start loading the image when visible
+          setIsLoaded(true);
+          // Stop observing once triggered
+          observer.unobserve(placeholderRef.current!);
+        }
       },
-      {
-        // Start loading when image is 200px away (match HTML version)
-        rootMargin: "200px 0px",
-        threshold: 0.01,
-      }
+      { rootMargin: "200px 0px", threshold: 0.01 }
     );
 
-    // Start observing
     observer.observe(placeholderRef.current);
 
-    // Clean up observer
-    return () => {
-      if (placeholderRef.current) {
-        observer.unobserve(placeholderRef.current);
-      }
-    };
-  }, [dataSrc]);
+    // Clean up
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="image-container mb-[1000px] text-center" key={index}>
+    <div className="image-container mb-[1000px] text-center">
       <h2 className="text-xl font-medium mb-4">
-        Image {index + 1}: Lazy Loading with Intersection Observer
+        Image {index + 2}: Lazy Loading with Intersection Observer
       </h2>
       <p className="mb-4">
-        This image {index === 3 ? "is the last one and " : ""}loads only when
+        This image {index === 2 ? "is the last one and " : ""}loads only when
         you scroll down near it.
       </p>
 
-      {!loaded ? (
+      {!isLoaded ? (
         <div
           ref={placeholderRef}
-          className="placeholder bg-gray-100 flex items-center justify-center min-h-[300px] text-gray-600 italic mx-auto max-w-full"
+          className="placeholder bg-gray-100 flex items-center justify-center min-h-[300px] text-gray-600 italic mx-auto"
           style={{ maxWidth: "800px" }}
         >
           Loading image...
         </div>
       ) : (
-        imageElement
+        <img
+          src={dataSrc}
+          alt="Lazy loaded image"
+          className="lazy-image max-w-full mx-auto transition-opacity duration-300 opacity-0"
+          style={{
+            maxWidth: "800px",
+            border: "1px solid #ddd",
+            borderRadius: "4px",
+            padding: "5px",
+          }}
+          onLoad={(e) => {
+            (e.target as HTMLImageElement).classList.remove("opacity-0");
+            (e.target as HTMLImageElement).classList.add("opacity-100");
+          }}
+        />
       )}
     </div>
   );
@@ -283,75 +247,58 @@ document.querySelectorAll('.placeholder').forEach(placeholder => {
 
           <div className="mb-8">
             <h3 className="text-xl font-semibold mb-2">React Implementation</h3>
-            <p className="mb-4">
-              Our React implementation maintains the same approach while using
-              React's component model:
-            </p>
+            <p className="mb-4">Our simplified React implementation:</p>
             <div className="bg-gray-100 p-4 rounded-md overflow-auto">
               <pre className="whitespace-pre-wrap text-sm">
-                {`// LazyImage component using Intersection Observer
-const LazyImage = ({ dataSrc, index }) => {
-  const [loaded, setLoaded] = useState(false);
-  const [imageElement, setImageElement] = useState(null);
+                {`// Simple LazyImage component
+const LazyImage = ({ src, alt }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const placeholderRef = useRef(null);
 
   useEffect(() => {
     if (!placeholderRef.current) return;
-
+    
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          // When placeholder is visible
-          if (entry.isIntersecting) {
-            // Create new image element
-            const img = new Image();
-            
-            // When image is loaded, replace placeholder
-            img.onload = () => {
-              setImageElement(
-                <img 
-                  src={dataSrc}
-                  alt="Lazy loaded image"
-                  className="lazy-image opacity-0"
-                  style={{ transition: "opacity 0.3s ease" }}
-                  onLoad={(e) => {
-                    // Fade in the image
-                    setTimeout(() => {
-                      e.target.style.opacity = "1";
-                    }, 50);
-                  }}
-                />
-              );
-              setLoaded(true);
-            };
-
-            // Trigger the load
-            img.src = dataSrc;
-            
-            // Stop observing
-            observer.unobserve(entry.target);
-          }
-        });
+        if (entries[0].isIntersecting) {
+          // Start loading the image when visible
+          setIsLoaded(true);
+          // Stop observing once triggered
+          observer.unobserve(placeholderRef.current);
+        }
       },
       { rootMargin: "200px 0px", threshold: 0.01 }
     );
 
     observer.observe(placeholderRef.current);
+    
+    // Clean up
     return () => observer.disconnect();
-  }, [dataSrc]);
+  }, []);
 
   return (
     <div className="image-container">
-      {!loaded ? (
+      {!isLoaded ? (
         <div ref={placeholderRef} className="placeholder">
           Loading image...
         </div>
       ) : (
-        imageElement
+        <img 
+          src={src}
+          alt={alt}
+          className="lazy-image transition-opacity duration-300 opacity-0"
+          onLoad={(e) => {
+            e.target.classList.remove("opacity-0");
+            e.target.classList.add("opacity-100");
+          }}
+        />
       )}
     </div>
   );
-}`}
+};
+
+// Usage
+<LazyImage src="/image.jpg" alt="Description" />`}
               </pre>
             </div>
           </div>
