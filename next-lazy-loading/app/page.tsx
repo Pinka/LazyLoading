@@ -63,10 +63,10 @@ export default function Home() {
           href="/examples/enhanced-suspense"
           className="feature-section hover:shadow-lg transition-shadow"
         >
-          <h2>Enhanced Suspense</h2>
+          <h2>React Suspense</h2>
           <p>
-            Using React 19's Suspense for component-level lazy loading with
-            improved error handling and fallback controls.
+            Using React Suspense for component-level lazy loading with improved
+            error handling and fallback controls.
           </p>
         </Link>
 

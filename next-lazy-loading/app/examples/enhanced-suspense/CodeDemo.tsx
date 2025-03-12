@@ -2,27 +2,10 @@
 
 import React, { Suspense, lazy, useState } from "react";
 
-// Lazy load component with a 1-second delay to simulate network latency
-const LazyComponent = lazy(
-  () =>
-    new Promise<{ default: React.ComponentType }>((resolve) => {
-      setTimeout(() => {
-        resolve({
-          default: () => (
-            <div className="p-4 bg-white rounded shadow">
-              <h3 className="text-xl font-semibold mb-2">
-                Lazy Loaded Component
-              </h3>
-              <p className="mb-2">This component was loaded on demand!</p>
-              <p className="text-sm text-gray-600">
-                Successfully loaded at: {new Date().toLocaleTimeString()}
-              </p>
-            </div>
-          ),
-        });
-      }, 1000);
-    })
-);
+// Lazy load components using actual dynamic imports
+// Next.js will automatically code-split these into separate chunks
+const LazyComponent = lazy(() => import("./LazyComponent"));
+const ErrorComponent = lazy(() => import("./ErrorComponent"));
 
 // Error logging function
 const logError = (error: Error) => {
@@ -34,44 +17,47 @@ export default function CodeDemo() {
   const [showLazyComponent, setShowLazyComponent] = useState(false);
   const [errorMode, setErrorMode] = useState(false);
 
-  // Simulate a component that will fail to load
-  const ErrorComponent = lazy(
-    () =>
-      new Promise<{ default: React.ComponentType }>((_, reject) => {
-        setTimeout(() => {
-          reject(new Error("Failed to load component"));
-        }, 1000);
-      })
-  );
+  // Log when buttons are clicked to make it clear in DevTools
+  const handleLoadComponent = () => {
+    console.log("Loading regular component...");
+    setShowLazyComponent(true);
+    setErrorMode(false);
+  };
+
+  const handleLoadErrorComponent = () => {
+    console.log("Loading error component...");
+    setShowLazyComponent(true);
+    setErrorMode(true);
+  };
+
+  const handleReset = () => {
+    console.log("Resetting demo...");
+    setShowLazyComponent(false);
+    setErrorMode(false);
+  };
 
   return (
-    <div className="border rounded-lg p-6 bg-gray-50">
-      <div className="flex gap-4 mb-6">
+    <div className="border rounded-lg p-6 bg-white">
+      <div className="flex flex-wrap gap-3 mb-6">
         <button
-          onClick={() => {
-            setShowLazyComponent(true);
-            setErrorMode(false);
-          }}
+          onClick={handleLoadComponent}
           disabled={showLazyComponent && !errorMode}
-          className="px-4 py-2 bg-primary text-white rounded hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
         >
           Load Component
         </button>
 
         <button
-          onClick={() => {
-            setShowLazyComponent(true);
-            setErrorMode(true);
-          }}
+          onClick={handleLoadErrorComponent}
           disabled={showLazyComponent && errorMode}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-500 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
         >
-          Load Component (Error Mode)
+          Load Error Component
         </button>
 
         <button
-          onClick={() => setShowLazyComponent(false)}
-          className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+          onClick={handleReset}
+          className="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-100 transition-colors"
         >
           Reset
         </button>
@@ -81,11 +67,13 @@ export default function CodeDemo() {
         <div className="my-4">
           <ErrorBoundary
             fallback={
-              <div className="p-4 bg-red-100 text-red-800 rounded">
-                Error loading component
+              <div className="p-4 bg-gray-100 text-gray-800 rounded border border-gray-200">
+                <h3 className="font-semibold">Error loading component</h3>
+                <p>Check the console for error details</p>
               </div>
             }
           >
+            {/* Using standard React Suspense API */}
             <Suspense
               fallback={
                 <div className="p-4 border border-gray-200 rounded animate-pulse">
@@ -99,43 +87,55 @@ export default function CodeDemo() {
             </Suspense>
           </ErrorBoundary>
 
-          <div className="mt-4 p-3 bg-blue-50 text-blue-700 rounded text-sm">
+          <div className="mt-4 p-3 bg-gray-50 text-gray-700 rounded border border-gray-200 text-sm">
             <p>
-              <strong>Note:</strong> In an actual React 19 implementation,
-              Suspense supports additional props:
+              <strong>DevTools Tip:</strong> Open your browser's DevTools (F12)
+              to observe:
             </p>
-            <pre className="mt-2 text-xs overflow-x-auto bg-blue-100 p-2 rounded">
-              {`<Suspense 
-  fallback={<Loading />}
-  fallbackMinimumTime={500} 
-  onError={(error) => handleError(error)}
->
-  <LazyComponent />
-</Suspense>`}
-            </pre>
+            <ul className="list-disc ml-5 mt-2">
+              <li>
+                <strong>Network tab:</strong> Watch for JavaScript chunks being
+                dynamically loaded
+              </li>
+              <li>
+                <strong>Console:</strong> View the logs as components load
+              </li>
+              <li>
+                <strong>Performance tab:</strong> Record and see the lazy
+                loading process
+              </li>
+            </ul>
           </div>
         </div>
       )}
 
-      <div className="mt-4 text-sm">
-        <h3 className="font-semibold mb-1">How it works:</h3>
-        <ul className="list-disc ml-5">
+      <div className="mt-4 text-sm border-t pt-4 border-gray-200">
+        <h3 className="font-semibold mb-2">How It Works:</h3>
+        <ul className="list-disc ml-5 space-y-1">
           <li>
-            The "Load Component" button triggers lazy loading of a component
+            Each component lives in a separate file that Next.js automatically
+            code-splits
           </li>
           <li>
-            The "Error Mode" button demonstrates error handling for failed loads
+            Components are loaded only when needed, reducing initial page load
           </li>
           <li>
-            Loading state is shown with a skeleton UI during the 1-second delay
+            <code className="text-xs bg-gray-100 px-1 py-0.5 rounded">
+              lazy()
+            </code>{" "}
+            creates a component that suspends while loading its dynamic import
           </li>
           <li>
-            React 19's enhanced Suspense includes fallbackMinimumTime to prevent
-            flashing
+            <code className="text-xs bg-gray-100 px-1 py-0.5 rounded">
+              Suspense
+            </code>{" "}
+            displays a fallback while waiting for the lazy component
           </li>
           <li>
-            Built-in error handling with onError callback captures loading
-            errors
+            <code className="text-xs bg-gray-100 px-1 py-0.5 rounded">
+              ErrorBoundary
+            </code>{" "}
+            catches errors from failed component loads
           </li>
         </ul>
       </div>
