@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+.explanation {
+  @apply bg-gray-100 border-l-4 border-primary p-4 mb-5;
+}
+
+.feature-section {
+  @apply mb-8 p-5 bg-white rounded shadow;
+}
+
+.feature-section h2 {
+  @apply text-primary text-xl font-semibold mt-0;
+}
+
+.note {
+  @apply bg-yellow-50 border-l-4 border-yellow-400 p-4 my-4;
+}
+
+.highlight {
+  @apply bg-green-50 border-l-4 border-green-500 p-4 my-4;
+}
+
+pre {
+  @apply bg-gray-100 p-4 rounded overflow-x-auto font-mono my-4 text-sm;
+  white-space: pre-wrap;
+}
+
+code {
+  @apply bg-gray-100 px-1 py-0.5 rounded font-mono text-sm;
+}
+
+.back-link {
+  @apply inline-block mt-5 text-primary no-underline;
+}
+
+.back-link:hover {
+  @apply underline;
+}
+
+.file-structure {
+  @apply bg-gray-100 p-4 rounded my-4 font-mono;
+}
+
+.loading-skeleton {
+  @apply animate-pulse bg-gray-200 rounded;
+} 
