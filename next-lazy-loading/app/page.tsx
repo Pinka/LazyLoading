@@ -2,131 +2,179 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main>
-      <h1 className="text-3xl font-bold mb-6">
-        React 19 & Next.js 15 Lazy Loading Techniques
-      </h1>
-
-      <div className="mb-8">
-        <p className="text-lg mb-4">
-          Welcome to the interactive presentation on lazy loading techniques in
-          modern web development. This site features real-world examples of
-          various lazy loading strategies implemented using Next.js 15 and React
-          19.
-        </p>
-        <p className="mb-4">
-          Each example is implemented with actual React code that you can run,
-          modify, and use in your own projects, showcasing the latest features
-          and best practices available in React 19 and Next.js 15.
+    <main className="max-w-4xl mx-auto px-4 py-8">
+      <div className="text-center mb-12 pb-6 border-b border-gray-200">
+        <h1 className="text-4xl font-bold mb-4">Lazy Loading Techniques</h1>
+        <p className="text-xl text-gray-600">
+          A collection of practical examples demonstrating various lazy loading
+          techniques in web development.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div className="feature-section">
-          <h2>What is Lazy Loading?</h2>
-          <p>
-            Lazy loading is a design pattern that defers the loading of
-            resources until they are actually needed, improving initial load
-            performance and saving bandwidth. React 19 and Next.js 15 provide
-            enhanced tools to implement lazy loading more effectively.
-          </p>
-        </div>
-
-        <div className="feature-section">
-          <h2>Benefits</h2>
-          <ul className="list-disc ml-5 space-y-1">
-            <li>Faster initial page load</li>
-            <li>Reduced resource usage</li>
-            <li>Better user experience</li>
-            <li>Improved performance metrics</li>
-            <li>Enhanced Core Web Vitals scores</li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="p-4 bg-blue-50 text-blue-800 rounded-lg mb-8">
-        <h2 className="font-semibold mb-2">
-          React 19 & Next.js 15 Improvements
+      <div className="mb-12 p-6 bg-gray-50 rounded-lg shadow-sm">
+        <h2 className="text-2xl font-bold mb-6 text-blue-600 border-b-2 border-blue-600 pb-2">
+          Image Lazy Loading
         </h2>
-        <ul className="list-disc ml-5 space-y-1">
-          <li>Enhanced Suspense API with better fallback control</li>
-          <li>Improved Server Components with better interoperability</li>
-          <li>Advanced image optimization with better format selection</li>
-          <li>More efficient streaming with progressive enhancement</li>
-          <li>Simplified code splitting with optimized bundle delivery</li>
+        <ul className="space-y-4">
+          <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
+            <Link
+              href="/examples/images/native-lazy-loading"
+              className="block text-lg font-bold text-gray-800 hover:text-blue-600"
+            >
+              Native Lazy Loading
+            </Link>
+            <p className="mt-2 text-gray-600">
+              Using the native{" "}
+              <code className="bg-gray-100 px-1 py-0.5 rounded text-sm">
+                loading="lazy"
+              </code>{" "}
+              attribute to defer loading of images until they are near the
+              viewport.
+            </p>
+          </li>
+          <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
+            <Link
+              href="/examples/images/intersection-observer"
+              className="block text-lg font-bold text-gray-800 hover:text-blue-600"
+            >
+              Intersection Observer API
+            </Link>
+            <p className="mt-2 text-gray-600">
+              Using the Intersection Observer API to implement custom lazy
+              loading behavior for images.
+            </p>
+          </li>
         </ul>
       </div>
 
-      <h2 className="text-2xl font-semibold mb-4">Example Implementations</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Link
-          href="/examples/enhanced-suspense"
-          className="feature-section hover:shadow-lg transition-shadow"
-        >
-          <h2>React Suspense</h2>
-          <p>
-            Using React Suspense for component-level lazy loading with improved
-            error handling and fallback controls.
-          </p>
-        </Link>
-
-        <Link
-          href="/examples/nested-suspense"
-          className="feature-section hover:shadow-lg transition-shadow"
-        >
-          <h2>Nested Suspense Boundaries</h2>
-          <p>
-            Creating multiple loading zones with prioritized content display for
-            better perceived performance.
-          </p>
-        </Link>
-
-        <Link
-          href="/examples/server-components"
-          className="feature-section hover:shadow-lg transition-shadow"
-        >
-          <h2>Server Components</h2>
-          <p>
-            Using React 19 Server Components to reduce client-side JavaScript
-            and improve performance with enhanced server-client
-            interoperability.
-          </p>
-        </Link>
-
-        <Link
-          href="/examples/asset-loading"
-          className="feature-section hover:shadow-lg transition-shadow"
-        >
-          <h2>Asset Loading Optimization</h2>
-          <p>
-            Optimizing image and other asset loading using Next.js 15's advanced
-            image handling with improved format selection and quality controls.
-          </p>
-        </Link>
-
-        <Link
-          href="/examples/streaming-ssr"
-          className="feature-section hover:shadow-lg transition-shadow"
-        >
-          <h2>Streaming SSR</h2>
-          <p>
-            Progressive page loading with enhanced streaming Server-Side
-            Rendering for improved user experience and better performance
-            metrics.
-          </p>
-        </Link>
-
-        <Link
-          href="/examples/code-splitting"
-          className="feature-section hover:shadow-lg transition-shadow"
-        >
-          <h2>Code Splitting</h2>
-          <p>
-            Modern code splitting techniques with React 19's optimized bundle
-            delivery and improved chunk management.
-          </p>
-        </Link>
+      <div className="mb-12 p-6 bg-gray-50 rounded-lg shadow-sm">
+        <h2 className="text-2xl font-bold mb-6 text-blue-600 border-b-2 border-blue-600 pb-2">
+          Component Lazy Loading
+        </h2>
+        <ul className="space-y-4">
+          <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
+            <Link
+              href="/examples/components/lazy-components"
+              className="block text-lg font-bold text-gray-800 hover:text-blue-600"
+            >
+              Lazy Components
+            </Link>
+            <p className="mt-2 text-gray-600">
+              Loading UI components on demand using dynamic imports and the
+              component factory pattern.
+            </p>
+          </li>
+          <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
+            <Link
+              href="/examples/enhanced-suspense"
+              className="block text-lg font-bold text-gray-800 hover:text-blue-600"
+            >
+              React Suspense
+            </Link>
+            <p className="mt-2 text-gray-600">
+              Exploring advanced lazy loading features in React with actual
+              React code examples. Includes Suspense, error handling, and code
+              splitting ready to use in your projects.
+            </p>
+          </li>
+        </ul>
       </div>
+
+      <div className="mb-12 p-6 bg-gray-50 rounded-lg shadow-sm">
+        <h2 className="text-2xl font-bold mb-6 text-blue-600 border-b-2 border-blue-600 pb-2">
+          Route-based Lazy Loading
+        </h2>
+        <ul className="space-y-4">
+          <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
+            <Link
+              href="/examples/code-splitting"
+              className="block text-lg font-bold text-gray-800 hover:text-blue-600"
+            >
+              SPA Route Lazy Loading
+            </Link>
+            <p className="mt-2 text-gray-600">
+              Implementing route-based code splitting in a single-page
+              application to load page modules on demand.
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <div className="mb-12 p-6 bg-gray-50 rounded-lg shadow-sm">
+        <h2 className="text-2xl font-bold mb-6 text-blue-600 border-b-2 border-blue-600 pb-2">
+          Data Lazy Loading
+        </h2>
+        <ul className="space-y-4">
+          <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
+            <Link
+              href="/examples/data/infinite-scroll"
+              className="block text-lg font-bold text-gray-800 hover:text-blue-600"
+            >
+              Infinite Scroll
+            </Link>
+            <p className="mt-2 text-gray-600">
+              Loading data incrementally as the user scrolls down the page,
+              providing a seamless browsing experience.
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <div className="mb-12 p-6 bg-gray-50 rounded-lg shadow-sm">
+        <h2 className="text-2xl font-bold mb-6 text-blue-600 border-b-2 border-blue-600 pb-2">
+          Advanced Techniques
+        </h2>
+        <ul className="space-y-4">
+          <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
+            <Link
+              href="/examples/server-components"
+              className="block text-lg font-bold text-gray-800 hover:text-blue-600"
+            >
+              Server Components
+            </Link>
+            <p className="mt-2 text-gray-600">
+              Using React Server Components to reduce client-side JavaScript and
+              improve performance with server-client interoperability.
+            </p>
+          </li>
+          <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
+            <Link
+              href="/examples/asset-loading"
+              className="block text-lg font-bold text-gray-800 hover:text-blue-600"
+            >
+              Asset Loading Optimization
+            </Link>
+            <p className="mt-2 text-gray-600">
+              Optimizing image and other asset loading using Next.js's advanced
+              image handling with improved format selection and quality
+              controls.
+            </p>
+          </li>
+          <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
+            <Link
+              href="/examples/streaming-ssr"
+              className="block text-lg font-bold text-gray-800 hover:text-blue-600"
+            >
+              Streaming SSR
+            </Link>
+            <p className="mt-2 text-gray-600">
+              Progressive page loading with streaming Server-Side Rendering for
+              improved user experience and better performance metrics.
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <footer className="mt-12 pt-6 border-t border-gray-200 text-center text-gray-600 text-sm">
+        <p className="mb-2">
+          These examples are part of a presentation on lazy loading techniques
+          in web development.
+        </p>
+        <p>
+          Open your browser's developer tools to observe how each lazy loading
+          technique works behind the scenes.
+        </p>
+      </footer>
     </main>
   );
 }
