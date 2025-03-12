@@ -47,7 +47,7 @@ export default function Home() {
         </ul>
       </div>
 
-      <div className="mb-12 p-6 bg-gray-50 rounded-lg shadow-sm">
+      <div className="mb-12 p-6 bg-gray-50 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-6 text-blue-600 border-b-2 border-blue-600 pb-2">
           Component Lazy Loading
         </h2>
@@ -57,7 +57,7 @@ export default function Home() {
               href="/examples/lazy-components"
               className="block text-lg font-bold text-gray-800 hover:text-blue-600"
             >
-              Lazy Components
+              Next.js Dynamic Imports
             </Link>
             <p className="mt-2 text-gray-600">
               Loading UI components on demand using Next.js dynamic imports for
@@ -67,15 +67,15 @@ export default function Home() {
           </li>
           <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
             <Link
-              href="/examples/enhanced-suspense"
+              href="/examples/react-suspense"
               className="block text-lg font-bold text-gray-800 hover:text-blue-600"
             >
               React Suspense
             </Link>
             <p className="mt-2 text-gray-600">
-              Exploring advanced lazy loading features in React with actual
-              React code examples. Includes Suspense, error handling, and code
-              splitting ready to use in your projects.
+              Lazy loading components with React's built-in Suspense and lazy
+              features. Demonstrates fallback UI, loading states, and code
+              splitting using the Suspense boundary pattern.
             </p>
           </li>
         </ul>
