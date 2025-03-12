@@ -121,51 +121,6 @@ export default function Home() {
         </ul>
       </div>
 
-      <div className="mb-12 p-6 bg-gray-50 rounded-lg shadow-sm">
-        <h2 className="text-2xl font-bold mb-6 text-blue-600 border-b-2 border-blue-600 pb-2">
-          Advanced Techniques
-        </h2>
-        <ul className="space-y-4">
-          <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
-            <Link
-              href="/examples/server-components"
-              className="block text-lg font-bold text-gray-800 hover:text-blue-600"
-            >
-              Server Components
-            </Link>
-            <p className="mt-2 text-gray-600">
-              Using React Server Components to reduce client-side JavaScript and
-              improve performance with server-client interoperability.
-            </p>
-          </li>
-          <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
-            <Link
-              href="/examples/asset-loading"
-              className="block text-lg font-bold text-gray-800 hover:text-blue-600"
-            >
-              Asset Loading Optimization
-            </Link>
-            <p className="mt-2 text-gray-600">
-              Optimizing image and other asset loading using Next.js's advanced
-              image handling with improved format selection and quality
-              controls.
-            </p>
-          </li>
-          <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
-            <Link
-              href="/examples/streaming-ssr"
-              className="block text-lg font-bold text-gray-800 hover:text-blue-600"
-            >
-              Streaming SSR
-            </Link>
-            <p className="mt-2 text-gray-600">
-              Progressive page loading with streaming Server-Side Rendering for
-              improved user experience and better performance metrics.
-            </p>
-          </li>
-        </ul>
-      </div>
-
       <footer className="mt-12 pt-6 border-t border-gray-200 text-center text-gray-600 text-sm">
         <p className="mb-2">
           These examples are part of a presentation on lazy loading techniques
