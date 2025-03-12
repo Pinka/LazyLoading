@@ -54,14 +54,15 @@ export default function Home() {
         <ul className="space-y-4">
           <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
             <Link
-              href="/examples/components/lazy-components"
+              href="/examples/lazy-components"
               className="block text-lg font-bold text-gray-800 hover:text-blue-600"
             >
               Lazy Components
             </Link>
             <p className="mt-2 text-gray-600">
-              Loading UI components on demand using dynamic imports and the
-              component factory pattern.
+              Loading UI components on demand using Next.js dynamic imports for
+              true lazy loading. Includes Chart.js, Weather Widget, and Comments
+              examples.
             </p>
           </li>
           <li className="p-4 bg-white rounded-lg shadow-sm hover:translate-y-[-3px] transition-transform">
