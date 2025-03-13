@@ -121,15 +121,169 @@ export default function Home() {
         </ul>
       </div>
 
-      <footer className="mt-12 pt-6 border-t border-gray-200 text-gray-600 text-sm">
-        <p>
-          These examples are part of a presentation on lazy loading techniques
-          in web development.
-        </p>
-        <p>
-          Open your browser's developer tools to observe how each lazy loading
-          technique works behind the scenes.
-        </p>
+      <footer className="mb-12 p-5 bg-blue-50 rounded-lg border border-blue-100">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">
+          Further Learning Resources
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-white p-3 rounded shadow-sm">
+            <h3 className="text-md font-bold text-blue-700 border-b border-gray-200 pb-1 mb-2">
+              Image Lazy Loading
+            </h3>
+            <ul className="text-sm space-y-1">
+              <li>
+                <a
+                  href="https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  <span className="mr-1">•</span> MDN Web Docs: Lazy Loading
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://web.dev/articles/browser-level-image-lazy-loading"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  <span className="mr-1">•</span> Browser-level Image Lazy
+                  Loading
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  <span className="mr-1">•</span> Intersection Observer API
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="bg-white p-3 rounded shadow-sm">
+            <h3 className="text-md font-bold text-blue-700 border-b border-gray-200 pb-1 mb-2">
+              Component Lazy Loading
+            </h3>
+            <ul className="text-sm space-y-1">
+              <li>
+                <a
+                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  <span className="mr-1">•</span> JavaScript Dynamic Imports
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://nextjs.org/docs/advanced-features/dynamic-import"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  <span className="mr-1">•</span> Next.js: Dynamic Import
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://react.dev/reference/react/Suspense"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  <span className="mr-1">•</span> React: Suspense
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://react.dev/reference/react/lazy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  <span className="mr-1">•</span> React: lazy
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="bg-white p-3 rounded shadow-sm">
+            <h3 className="text-md font-bold text-blue-700 border-b border-gray-200 pb-1 mb-2">
+              Route-based Lazy Loading
+            </h3>
+            <ul className="text-sm space-y-1">
+              <li>
+                <a
+                  href="https://web.dev/articles/code-splitting-suspense"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  <span className="mr-1">•</span> Code-splitting with React.lazy
+                  and Suspense
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://developer.mozilla.org/en-US/docs/Glossary/Code_splitting"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  <span className="mr-1">•</span> MDN: Code Splitting
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="bg-white p-3 rounded shadow-sm">
+            <h3 className="text-md font-bold text-blue-700 border-b border-gray-200 pb-1 mb-2">
+              Data Lazy Loading
+            </h3>
+            <ul className="text-sm space-y-1">
+              <li>
+                <a
+                  href="https://web.dev/articles/virtualize-long-lists-react-window"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  <span className="mr-1">•</span> Virtualize Large Lists with
+                  react-window
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API/Using_the_Intersection_Observer_API"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  <span className="mr-1">•</span> Using Intersection Observer
+                  for Infinite Scroll
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://web.dev/articles/infinite-scroll"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  <span className="mr-1">•</span> Infinite Scroll without Layout
+                  Shifts
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </footer>
     </main>
   );
