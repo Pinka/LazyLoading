@@ -11,7 +11,7 @@ const ChartComponent = dynamic(
   () => import("@/components/examples/lazy-components/ChartComponent"),
   {
     loading: () => (
-      <div className="flex justify-center items-center h-[300px] bg-gray-100 text-gray-500 animate-pulse">
+      <div className="flex justify-center items-center h-[300px] w-full bg-gray-100 text-gray-500 animate-pulse">
         Loading chart component...
       </div>
     ),
@@ -23,7 +23,7 @@ const WeatherWidget = dynamic(
   () => import("@/components/examples/lazy-components/WeatherWidget"),
   {
     loading: () => (
-      <div className="flex justify-center items-center h-[200px] bg-gray-100 text-gray-500 animate-pulse">
+      <div className="flex justify-center items-center h-[200px] w-full bg-gray-100 text-gray-500 animate-pulse">
         Loading weather widget...
       </div>
     ),
@@ -34,7 +34,7 @@ const CommentsSection = dynamic(
   () => import("@/components/examples/lazy-components/CommentsSection"),
   {
     loading: () => (
-      <div className="flex justify-center items-center h-[200px] bg-gray-100 text-gray-500 animate-pulse">
+      <div className="flex justify-center items-center h-[200px] w-full bg-gray-100 text-gray-500 animate-pulse">
         Loading comments section...
       </div>
     ),
