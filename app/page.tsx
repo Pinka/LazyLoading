@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="max-w-4xl mx-auto px-4 py-8">
-      <div className="text-center mb-12 pb-6 border-b border-gray-200">
+      <div className="mb-12 pb-6 border-b border-gray-200">
         <h1 className="text-4xl font-bold mb-4">Lazy Loading Techniques</h1>
         <p className="text-xl text-gray-600">
           A collection of practical examples demonstrating various lazy loading
@@ -121,8 +121,8 @@ export default function Home() {
         </ul>
       </div>
 
-      <footer className="mt-12 pt-6 border-t border-gray-200 text-center text-gray-600 text-sm">
-        <p className="mb-2">
+      <footer className="mt-12 pt-6 border-t border-gray-200 text-gray-600 text-sm">
+        <p>
           These examples are part of a presentation on lazy loading techniques
           in web development.
         </p>
